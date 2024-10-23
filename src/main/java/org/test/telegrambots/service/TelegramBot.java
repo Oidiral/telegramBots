@@ -1,5 +1,7 @@
 package org.test.telegrambots.service;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.test.telegrambots.config.BotConfig;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -21,6 +23,14 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         commandHandler.handleCommand(update);
+        SendMessage message = new SendMessage();
+        message.setChatId(update.getMessage().getChatId().toString());
+        message.setText(update.getMessage().getText());
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

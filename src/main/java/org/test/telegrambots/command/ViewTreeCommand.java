@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class ViewTreeCommand implements BotCommand {
     @Override
-    public void execute(Update update) {
-
+    public String execute(Update update) {
+        return null;
     }
 }

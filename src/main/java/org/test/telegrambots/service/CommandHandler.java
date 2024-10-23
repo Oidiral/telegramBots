@@ -1,9 +1,8 @@
 package org.test.telegrambots.service;
 
-import org.test.telegrambots.command.BotCommand;
-import org.test.telegrambots.command.ViewTreeCommand;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.test.telegrambots.command.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +11,14 @@ import java.util.Map;
 public class CommandHandler {
     private final Map<String, BotCommand> commands = new HashMap<>();
 
-    public CommandHandler(ViewTreeCommand viewTreeCommand) {
+
+    public CommandHandler(ViewTreeCommand viewTreeCommand, HelpCommand helpCommand, AddChildrenElementCommand addChildrenElementCommand, AddElementCommand addElementCommand, RemoveElementCommand removeElementCommand, TestCommand testCommand) {
         commands.put("/viewTree", viewTreeCommand);
+        commands.put("/help", helpCommand);
+        commands.put("/addChildrenElement", addChildrenElementCommand);
+        commands.put("/addElement", addElementCommand);
+        commands.put("/removeElement", removeElementCommand);
+        commands.put("/test", testCommand);
     }
 
     public void handleCommand(Update update) {
@@ -22,8 +27,8 @@ public class CommandHandler {
             BotCommand botCommand = commands.get(command);
             if (botCommand != null) {
                 botCommand.execute(update);
-            }else {
-
+            } else {
+                System.out.println("Unknown command: " + command);
             }
         }
     }
